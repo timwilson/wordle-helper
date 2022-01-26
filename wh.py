@@ -4,7 +4,7 @@ import argparse
 
 
 def load_words(word_source):
-    """Load the list of 5-letter words from the word list."""
+    """Load the list of 5-letter words from the word list excluding proper nouns."""
     f = open(word_source, "r")
     # The 5-letter words are len = 6 because of the \n character.
     words = [
