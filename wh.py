@@ -3,9 +3,9 @@
 import argparse
 
 
-def load_words():
+def load_words(word_source):
     """Load the list of 5-letter words from the built-in macOS dictionary."""
-    f = open("/usr/share/dict/words", "r")
+    f = open(word_source, "r")
     words = [
         word.strip() for word in f.readlines() if len(word) == 6 and word[0].islower()
     ]
@@ -48,28 +48,39 @@ def print_list(wordlist):
 
 
 if __name__ == "__main__":
-    words = load_words()
     parser = argparse.ArgumentParser(description="Filter possible Wordle solutions.")
+    parser.add_argument(
+        "-d",
+        "--dict",
+        dest="word_source",
+        type=str,
+        help="Specify the path to a list of dictionary words",
+        default="/usr/share/dict/words",
+    )
     parser.add_argument(
         "-r",
         "--req",
         dest="required_letters",
+        type=str,
         help="Specify the letters that are known to be present in the word in a simple string. For example, 'xyz'.",
     )
     parser.add_argument(
         "-w",
         "--wrong",
         dest="wrong_letters",
+        type=str,
         help="Specify the letters that are known to be missing in the word in a simple string. For example, 'abc'.",
     )
     parser.add_argument(
         "-k",
         "--known",
         dest="known_letters",
+        type=str,
         help="Specify positions of known letters using '_' for missing letters. For example, '_er__'.",
     )
     args = parser.parse_args()
 
+    words = load_words(args.word_source)
     possible_words = words
     if args.required_letters:
         possible_words = filter_for_required_letters(
