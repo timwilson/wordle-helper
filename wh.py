@@ -4,8 +4,9 @@ import argparse
 
 
 def load_words(word_source):
-    """Load the list of 5-letter words from the built-in macOS dictionary."""
+    """Load the list of 5-letter words from the word list."""
     f = open(word_source, "r")
+    # The 5-letter words are len = 6 because of the \n character.
     words = [
         word.strip() for word in f.readlines() if len(word) == 6 and word[0].islower()
     ]
